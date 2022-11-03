@@ -1,34 +1,62 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# MojoDoo Developer Assessment
 
-## Getting Started
+This is a just a diagnoses, to show us your capabilities and create dissection subject for our interview.
 
-First, run the development server:
+## Before you begin
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+Relax and take you time, you have until our interview to complete the tasks.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Currently our projects are web-based, thereby the assignments are web app themed, however you are welcome to use what ever technologies that your are comfortable with.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Content
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+I have setup a dynamodb & mongodb in the docker compose file. 
+You can use them if you need them or not at all, however feel free to add any data storage layer that you need/like.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-## Learn More
+> Note: The port are exposed to localhost 
 
-To learn more about Next.js, take a look at the following resources:
+> known issues: 
+> - dynamodb: if you getting this error `unable to open database file` use this `sudo chmod a+rw tmp/dynamodb` [ref](https://stackoverflow.com/questions/45850688/unable-to-open-local-dynamodb-database-file-after-power-outage)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## How to get started
 
-## Deploy on Vercel
+Start by forking this repo, and the rest are up you.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+When your done you can make a PR or send us the link to your repo.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Epic
+Our clients need a tasks management system, that allows them to create and find tasks _easily_. 
+
+### User stories
+
+1. As a user you need to be able to create tasks 
+2. As a user you need to be able to complete tasks 
+3. As a user you need to be able to delete tasks 
+4. As a user you need to be able to change the oder of the tasks
+5. As a user you need to be able to find you tasks easily (note a user may have hundreds of tasks.)
+
+### TASK ONE - Create a todo list
+
+Use a the framework of your chose to create simple a simple todo list where you can:
+
+- Create tasks
+- Complete tasks
+- Delete tasks
+- Update tasks
+
+### TASK TWO - Change the order of tasks in the list
+
+Make it so that you change change order of the tasks
+
+> **Bonus:** use drag and drop to accomplish that.
+
+### TASK THREE - allow for hierarchical tagging
+
+In the project you can find `./data/tags`. The tags are grouped in subgroups and the need to keep their hierarchical structure.
+
+- Create a tag picker that allows you to find these tags in an easy and structured way.
+- Create a search function that allows you to find by the tag
+- Create a refining function that allows to you to refining the search result by the tags
+

@@ -2,22 +2,35 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { dbConnect } from "../../../lib/connect";
 import { Todo } from "../../../schemas/todo";
 
-type Data = {
-  name: string;
-};
+
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse
 ) {
   await dbConnect();
 
-  // await new Todo({
-  //   name: "hej-"+new Date().toISOString()
-  // }).save();
+  if (req.method == "POST") {
+    console.log(JSON.parse(req.body))
+    await new Todo({
+      name: JSON.parse(req.body).name
+    }).save();
+    res.status(200).send("Task added");
+  }
 
-  const todos = await Todo.find();
-  console.log(todos);
-  // res.status(200).json({name: "hej"});
-  res.status(200).json(todos as any);
+  if (req.method == "GET") {
+    const todos = await Todo.find();
+    res.status(200).json(todos as any);
+  }
+
+  if (req.method == "DELETE") {
+    const todos = await Todo.find();
+    res.status(200).json(todos as any);
+  }
+
+  if (req.method == "PUT") {
+    const reqBody = JSON.parse(req.body);
+    await Todo.findOneAndUpdate({ name: reqBody.name, isDone: reqBody.isDone })
+    res.status(200).send("Task updated");
+  }
 }
