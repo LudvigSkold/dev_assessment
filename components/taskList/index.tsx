@@ -17,6 +17,19 @@ const onCompletedChange = async (event: any, name: string) => {
   });
 };
 
+const deleteTask = async (taskName: string) => {
+  console.log(taskName);
+  const options = {
+    method: "DELETE",
+    body: JSON.stringify({
+      name: taskName
+    })
+  };
+  await fetch("/api/todo", options).then(res => {
+    console.log(res);
+  });
+}
+
 export const TaskList = () => {
   const [data, setData] = useState<any[]>([]);
   const [isLoading, setLoading] = useState(false);
@@ -54,6 +67,7 @@ export const TaskList = () => {
                 name="isDone"
               />
             </h2>
+            <button className="btn btn-danger" onClick={name => deleteTask(task.name)}>Delete</button>
           </div>
         );
       })}

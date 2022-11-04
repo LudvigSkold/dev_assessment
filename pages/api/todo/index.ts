@@ -2,8 +2,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { dbConnect } from "../../../lib/connect";
 import { Todo } from "../../../schemas/todo";
 
-
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -11,9 +9,8 @@ export default async function handler(
   await dbConnect();
 
   if (req.method == "POST") {
-    console.log(JSON.parse(req.body))
     await new Todo({
-      name: JSON.parse(req.body).name
+      name: JSON.parse(req.body).name,
     }).save();
     res.status(200).send("Task added");
   }
@@ -24,13 +21,17 @@ export default async function handler(
   }
 
   if (req.method == "DELETE") {
-    const todos = await Todo.find();
-    res.status(200).json(todos as any);
+    const reqBody = JSON.parse(req.body);
+    await Todo.findOneAndDelete({ name: reqBody.name });
+    res.status(200).send("Task deleted");
   }
 
   if (req.method == "PUT") {
     const reqBody = JSON.parse(req.body);
-    await Todo.findOneAndUpdate({ name: reqBody.name, isDone: reqBody.isDone })
+    await Todo.findOneAndUpdate(
+      { name: reqBody.name },
+      { isDone: reqBody.isDone }
+    );
     res.status(200).send("Task updated");
   }
 }
