@@ -30,11 +30,9 @@ export const Form = () => {
             value={first}
           />
         </div>
-        <div className="col-2">
-          <button className="btn btn-success" type="submit">
+          <button className="btn btn-success col-2" type="submit">
             Add task
           </button>
-        </div>
       </form>
     </div>
   );

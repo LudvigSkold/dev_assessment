@@ -1,76 +1,48 @@
-import React, { useEffect, useState } from "react";
-
-const onCompletedChange = async (event: any, name: string) => {
-  console.log(event.target.checked, name)
-  if (event.target.checked) console.log("Checkbox is checked");
-  if (!event.target.checked) console.log("Checkbox is NOT checked");
-
-  const options = {
-    method: "PUT",
-    body: JSON.stringify({
-      name: name,
-      isDone: event.target.checked
-    })
-  };
-  await fetch("/api/todo", options).then(res => {
-    console.log(res);
-  });
-};
-
-const deleteTask = async (taskName: string) => {
-  console.log(taskName);
-  const options = {
-    method: "DELETE",
-    body: JSON.stringify({
-      name: taskName
-    })
-  };
-  await fetch("/api/todo", options).then(res => {
-    console.log(res);
-  });
-}
+import React, { useCallback, useEffect, useState } from "react";
+import { useTodos } from "../../hooks/todos/useTodos";
+import { TaskCard } from "../task-card";
 
 export const TaskList = () => {
-  const [data, setData] = useState<any[]>([]);
-  const [isLoading, setLoading] = useState(false);
-  const options = {
-    method: "GET",
-  };
+  //const [tasks, setData] = useState<any[]>([]);
+  //const [isLoading, setLoading] = useState(false);
+  // const options = {
+  //   method: "GET",
+  // };
+  // useEffect(() => {
+  //   setLoading(true);
+  //   fetch("/api/todo", options)
+  //     .then((res) => res.json())
+  //     .then((tasks) => {
+  //       setData(tasks);
+  //       setLoading(false);
+  //     });
+  // }, []);
+
+  const { get, tasks, loading } = useTodos();
 
   useEffect(() => {
-    setLoading(true);
-    fetch("/api/todo", options)
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-        setLoading(false);
-      });
-  }, []);
+    console.log(tasks)
+  }, [tasks])
 
-  if (isLoading) return <p>Loading...</p>;
-  if (!data) return <p>No tasks</p>;
+  if (loading) return <p>Loading...</p>;
+  if (tasks.length == 0) {
+    return <p>No tasks!</p>;
+  }
+
 
   return (
     <div>
-      {data.map((task) => {
-        return (
-          <div key={task.name}>
-            <h2>Name: {task.name}</h2>
-            <h2>
-              Completed:
-              <input
-                type="checkbox"
-                value={task.isDone}
-                checked={task.isDone}
-                onChange={event => onCompletedChange(event, task.name)}
-                id="isDone"
-                name="isDone"
-              />
-            </h2>
-            <button className="btn btn-danger" onClick={name => deleteTask(task.name)}>Delete</button>
-          </div>
-        );
-      })}
+      {tasks?.map((task) => (
+        <div key={task.name}>
+          <TaskCard
+            name={task.name}
+            isDone={task.isDone}
+            update={() => {
+              void get();
+            }}
+          ></TaskCard>
+        </div>
+      ))}
     </div>
   );
 };

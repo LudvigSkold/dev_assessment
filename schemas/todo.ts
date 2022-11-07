@@ -3,6 +3,7 @@ import { model, models, Schema } from "mongoose";
 export interface ITodo {
     name: string;
     isDone: boolean;
+    update?: () => void;
 }
 
 const todoSchema = new Schema({
